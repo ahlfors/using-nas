@@ -1,7 +1,7 @@
 # NAS Demo
 This is a demo that shows how to use the NAS feature in the Alibaba Cloud Function Compute to crawl a website. Since a crawler follows all links, it can run forever. Thus, we will use a time trigger to run the crawler every minute and use the NAS file system to store the images and the list of pages to crawl. 
 
-##Introduce Function Compute
+## Introduce Function Compute 
 [Function Compute](https://www.alibabacloud.com/product/function-compute) is an Alibaba cloud serverless platform that allows engineers to develop an internet scale service with just a few lines of code.  It seamlessly handles the resource management, auto scaling, and load balancing so that developers can focus on their business logic and don't worry about managing cloud infrastructures. Internally, we deploy containers and use preprioritory distributed algorithms to schedule our users’ code on resources that are scaled up and down automatically. Since its inception a little over a year ago, we have developed many cutting-edge technologies internally aiming to provide our users with high scalability, reliability and performance.
 
 In this guide, we show you a step by step tutorial that showcases some of its innovative features. You can read this [quick start guide](https://www.alibabacloud.com/help/doc-detail/73329.htm) to familiar yourself with basic serverless concepts if this is your first time using Function Compute.
@@ -9,12 +9,12 @@ In this guide, we show you a step by step tutorial that showcases some of its in
 ## Using Network File System
 The first [feature](https://www.alibabacloud.com/help/doc-detail/87401.htm) that we introduce allows developers to write function code that read and write from a network attached file system.
 
-###Motivation
+### Motivation
 The serverless nature of the platform means that user code *can* run on different places each time it is invoked. This further implies that the functions cannot rely on its local file system to store any intermediate results. The developers have to rely on another cloud service like [Object Storage Services](https://www.alibabacloud.com/product/oss) to share running results between functions or invocations. This is not ideal as dealing with another distributed service adds extra developing overhead and complexities in the code in order to handle various edge cases.
 
 To solve this problem, we developed the access Network Attached Storage ([NAS](https://www.alibabacloud.com/product/nas)) feature. NAS is another Alibaba cloud service that offers a highly scalable, reliable and available distributed file system that supports <strong>standard file access protocols</strong>. We mount the remote NAS file system to the resource that the user code is running which effectively creates a "local" file system for the function code to use. 
 
-###Image Crawling Example
+### Image Crawling Example
 The demo shows how to create a serverless web crawler that downloads all the images from a seed webpage. This is a quite challenge problem as it is not possible to crawl all the websites in one function given the time constraints. However, with the access to NAS feature, it becomes straightforward as one can use the NAS file system to share data between function runs. Below we show a step by step tutorial from scratch.  We assume that you understand the concept of [VPC] (https://www.alibabacloud.com/product/vpc) and know how to create a NAS [mount point] (https://www.alibabacloud.com/help/doc-detail/60431.htm) in a VPC.
 
 #### Create a service with NAS configuration
@@ -162,10 +162,10 @@ mvn clean package
 ## Create a Serverless Service
 The second [feature](https://www.alibabacloud.com/help/doc-detail/71229.htm) that we introduce allows anyone to send an HTTP request to trigger a function execution directly.
 
-###Motivation
+### Motivation
 Now that we have a file system filled with the images downloaded from the web, we want to find a way to serve those images through a web service. The traditional way is to mount the NAS to a VM and start a webserver on it. This is both a waste of resources if the service is lightly used and not scalable when the traffic is heavy. Instead, you can write a serverless function that reads the images stored on the NAS file system and serve it through a HTTP endpoint. In this way, you can enjoy the instant scalability that Function Compute provides while still only pay for the actual usage.
 
-###Image Processing Service Example
+### Image Processing Service Example
 This demo shows how to write such a service. 
 
 #### Create a Function with HTTP Trigger
@@ -246,7 +246,7 @@ def handler(environ, start_response):
 Now we have the function and the HTTP trigger ready, we can try something like [face detection](https://1986114430573743.cn-hongkong.fc.aliyuncs.com/2016-08-15/proxy/NASDemo/NASImageConverter/tmz/img/01b6a87e57b6da3b072fc10b1e45f37a.jpg?action=facedetect). You can edit the python code on the Function Compute console directly and add many more different image transformations and play with it.
 
 
-##Conclusions
+## Conclusions
 - One can read this [blog] (https://www.alibabacloud.com/blog/serverless-computing-with-alibaba-cloud-function-compute_593960) to get a better idea what [Function Compute](https://www.alibabacloud.com/product/function-compute) can do.
 - One can also read the official NAS [tutorial] (https://www.alibabacloud.com/help/doc-detail/90025.htm) and other Function Compute [documentations](https://www.alibabacloud.com/help/doc-detail/52895.htm)
 - Please give us feedbacks or suggestions in our official Function Compute [forum](https://www.alibabacloud.com/forum/thread-47).
