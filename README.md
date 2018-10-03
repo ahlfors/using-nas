@@ -1,12 +1,12 @@
 This article showcases how you can utilize multiple unique features of the Alibaba Cloud Function Compute to build an image processing web service. 
 
 ## Introducing Function Compute 
-[Function Compute](https://www.alibabacloud.com/product/function-compute) is an Alibaba cloud serverless platform that allows engineers to develop an internet scale service with just a few lines of code.  It seamlessly handles resource management, auto scaling and load balancing so that developers can focus on their business logic without worrying about managing the underlying infrastructure making it easy to build applications that respond quickly to new information”. Internally, we utilize container technology and develop proprietary distributed algorithms to schedule our user's code on resources that are scaled elastically. Since it's inception a little over an year ago, we have developed many cutting-edge technologies internally aiming to provide our users with high scalability, reliability and performance.
+[Function Compute](https://www.alibabacloud.com/product/function-compute) is an Alibaba cloud serverless platform that allows engineers to develop an internet scale service with just a few lines of code. It seamlessly handles resource management, auto scaling and load balancing so that developers can focus on their business logic without worrying about managing the underlying infrastructure making it easy to build applications that respond quickly to new information”. Internally, we utilize container technology and develop proprietary distributed algorithms to schedule our user's code on resources that are scaled elastically. Since it's inception a little over an year ago, we have developed many cutting-edge technologies internally aiming to provide our users with high scalability, reliability and performance.
 
-In this guide, we will show you a step by step tutorial that showcases some of it's innovative features. You can read this [quick start guide](https://www.alibabacloud.com/help/doc-detail/73329.htm) to familiarize yourself with basic serverless concepts if this is your first time using Function Compute.
+In this guide, we show you a step by step tutorial that showcases some of its innovative features. You can read this [quick start guide](https://www.alibabacloud.com/help/doc-detail/73329.htm) to familiarize yourself with basic serverless concepts if this is your first time using Function Compute.
 
 ## Using Network File System
-The first [feature](https://www.alibabacloud.com/help/doc-detail/87401.htm) that we introduce will allow developers to write functions that read and write from a network attached file system like Alibaba Cloud [NAS](https://www.alibabacloud.com/product/nas).
+The first [feature](https://www.alibabacloud.com/help/doc-detail/87401.htm) that we introduce allows developers to write functions that read and write from a network attached file system like Alibaba Cloud [NAS](https://www.alibabacloud.com/product/nas).
 
 ### Motivation
 The serverless nature of the platform means that user code *can* run on different instances each time it is invoked. This further implies that the functions cannot rely on its local file system to store any intermediate results. The developers have to rely on another cloud service like [Object Storage Services](https://www.alibabacloud.com/product/oss) to share processed results between functions or invocations. This is not ideal as dealing with another distributed service adds extra development overhead and complexities in the code to handle various edge cases.
@@ -25,7 +25,7 @@ This demo section shows you how to create a serverless web crawler that download
 	2. Enable **Advanced Settings**.
 	3. Finish the **VPC Configs** fields, make sure that you select the VPC in which the NAS mount point is located. 
 ![Screen Shot 2018-09-11 at 11.37.28 PM.png](http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/4bee41dfea1b1debcee011e8cec688f7.png)
-       After the **VPC Configs** are complete, the **NAS Config** fields will appear.
+       After the **VPC Configs** are complete, the **NAS Config** fields appear.
 4.  Complete the **Nas Config** fields as described below.
 ![NAS Config.jpg](http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/27fc1fde83b1783c1556ec1602b9ac6e.jpg)
   1. The **UserId** and **GroupId** fields are the `uid`/`gid` under which the function runs. They determine the owner of all the files created on the NAS file system. You can pick any user/group id for this demo as they are shared among all functions in this service.
@@ -38,7 +38,7 @@ This demo section shows you how to create a serverless web crawler that download
 7. Click **OK**.
 
 #### Create a function that starts every five minutes
-Now that we have a service with NAS access, it's time to write the crawler.  Since the crawler function has to run many times before it can finish, we will use a [time trigger] (https://www.alibabacloud.com/help/doc-detail/68172.htm) to invoke it every 5 minutes.
+Now that we have a service with NAS access, it's time to write the crawler.  Since the crawler function has to run many times before it can finish, we use a [time trigger] (https://www.alibabacloud.com/help/doc-detail/68172.htm) to invoke it every 5 minutes.
 1. Log on to the Function Compute console and select the service you just created
 2. Create a [function] (https://www.alibabacloud.com/help/doc-detail/52077.htm) for the service by clicking the plus sign.
 ![Create Function.jpg](http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/27b9f26856edc6954fb94f1327bb9d1f.jpg)
@@ -173,7 +173,7 @@ public class ImageCrawler {
 For the sake of simplicity, we have omitted some details and other helper classes. You can get all the code from the [awesome-fc github project](https://github.com/awesome-fc/using-nas) repo if you would like to run the code and get images from your favorite websites.
 
 #### Run the crawler
-Now that we have written the code, we need run it. Here are the steps.
+Now that we have written the code, we need to run it. Here are the steps.
 -  We use *maven* to do dependency and build management. Just type the following command after you sync with the repro (assuming you have maven installed already) to create the jar file ready to upload.
 
 ```shell
@@ -181,7 +181,7 @@ mvn clean package
 ```
 - Select the `Code` tab in the function page. Upload the jar file (the one with name ends with dependencies) created in the previous step through the console.
 ![java function.jpg](http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/1ec6399a5a0c5f7f095e6a178841c85f.jpg)
-- Select the `Triggers` tab in the function page. Click the time trigger link to enter the event in Json format. The Json event which will be serialized to the crawler config and passed to the function. Click Ok.
+- Select the `Triggers` tab in the function page. Click the time trigger link to enter the event in Json format. The Json event will be serialized to the crawler config and passed to the function. Click Ok.
 ![timer event.jpg](http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/f6733031ff3d2f760ecb4e29f9e419c3.jpg)
 - The time trigger invokes the crawler function every five minutes.  Each time, the handler picks up the list of URLs still need to be visited and start from the first one.
 - You can select the `Log` tab to search for the crawler execution log.
@@ -272,9 +272,9 @@ def handler(environ, start_response):
 
 ```
 
-#### What Next ?
-Now we have the function and the HTTP trigger ready,  we can try an advanced feature like [face detection](https://1986114430573743.cn-hongkong.fc.aliyuncs.com/2016-08-15/proxy/NASDemo/NASImageConverter/tmz/img/01b6a87e57b6da3b072fc10b1e45f37a.jpg?action=facedetect) or [image rotation](https://1986114430573743.cn-hongkong.fc.aliyuncs.com/2016-08-15/proxy/NASDemo/NASImageConverter/tmz/img/01b6a87e57b6da3b072fc10b1e45f37a.jpg?action=rotate&angle=90).
-- The URL is constrained based on your user/region/service/function [name](https://www.alibabacloud.com/help/doc-detail/74771.htm).
+#### What's Next ?
+Now we have the function and the HTTP trigger ready,  we can try [image rotation](https://1986114430573743.cn-hongkong.fc.aliyuncs.com/2016-08-15/proxy/NASDemo/NASImageConverter/nas-demo/img/5c304906bb322c0ed951b54a7c939fbb.jpg?action=rotate&angle=90) or an advanced transformation like [face detection](https://1986114430573743.cn-hongkong.fc.aliyuncs.com/2016-08-15/proxy/NASDemo/NASImageConverter/nas-demo/img/126fecc7cceeccc29764da2dfbc686f0.jpg?action=facedetect).
+- The URL is constructed based on your user/region/service/function [name](https://www.alibabacloud.com/help/doc-detail/74771.htm).
 - Use the relative path to the local NAS mount dir of any image. You can find out all the files on your NAS system through your crawler log.
 - You can edit the python code on the Function Compute console directly and add many more different image transformations and play with it.
 
